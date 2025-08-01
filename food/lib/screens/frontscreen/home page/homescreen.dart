@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food/screens/frontscreen/home%20page/search_screen.dart';
+import 'package:food/screens/frontscreen/home%20page/food%20pages/search_screen.dart';
 import 'package:food/widgets/resturantcard.dart';
 
 class Homescreen extends StatefulWidget {

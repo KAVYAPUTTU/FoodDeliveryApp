@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:food/screens/frontscreen/home%20page/food_screens.dart';
+import 'package:food/screens/frontscreen/home%20page/food%20pages/food_screens.dart';
+
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});

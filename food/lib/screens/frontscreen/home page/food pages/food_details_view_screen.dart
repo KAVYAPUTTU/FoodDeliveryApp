@@ -27,6 +27,7 @@ class _FoodDetailsViewScreenState extends State<FoodDetailsViewScreen> {
   bool isliked = false;
   bool isclicked = false;
   int increment = 0;
+  int totalPrice = 0;
   String selectedSize = '14"';
   final List<String> sizes = ['10"', '14"', '16"'];
   @override
@@ -283,7 +284,7 @@ class _FoodDetailsViewScreenState extends State<FoodDetailsViewScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '\$${widget.price}',
+                          '\$$totalPrice',
                           style: TextStyle(fontSize: 28, fontFamily: 'Sen'),
                         ),
                         Container(
@@ -303,6 +304,7 @@ class _FoodDetailsViewScreenState extends State<FoodDetailsViewScreen> {
                                   onPressed: () {
                                     setState(() {
                                        if (increment > 0) increment--;
+                                       totalPrice = widget.price *increment;
                                     });
                                   },
                                   backgroundColor: Colors.grey,
@@ -324,6 +326,8 @@ class _FoodDetailsViewScreenState extends State<FoodDetailsViewScreen> {
                                   onPressed: () {
                                     setState(() {
                                       increment = increment + 1;
+                                      totalPrice = widget.price *increment;
+                                      
                                     });
                                   },
                                   backgroundColor: Colors.grey,
