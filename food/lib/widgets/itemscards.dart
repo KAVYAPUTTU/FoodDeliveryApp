@@ -6,10 +6,11 @@ class Itemscards extends StatelessWidget {
   final double num;
   final String subtitle;
   final VoidCallback onTap;
+  final VoidCallback? addtocart;
   const Itemscards(
       {super.key,
       required this.img,
-      required this.title, required this.num, required this.subtitle, required this.onTap});
+      required this.title, required this.num, required this.subtitle, required this.onTap, this.addtocart});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,9 @@ class Itemscards extends StatelessWidget {
                       radius: 14,
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Colors.white,
-                      child: Icon(Icons.add),
+                      child: GestureDetector(
+                        onTap: addtocart,
+                        child: Icon(Icons.add)),
                     )
               ])
               ],

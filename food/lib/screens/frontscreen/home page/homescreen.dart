@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food/screens/frontscreen/cart%20pages/cart_screen_details.dart';
 import 'package:food/screens/frontscreen/home%20page/food%20pages/search_screen.dart';
 import 'package:food/widgets/resturantcard.dart';
 
@@ -65,11 +66,14 @@ class _HomescreenState extends State<Homescreen> {
                         ],
                       ),
                       Spacer(),
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.black,
-                        foregroundColor: Colors.white,
-                        child: Icon(Icons.shopping_cart_outlined),
+                      GestureDetector(
+                        // onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context)=>CartScreenDetails())),
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.black,
+                          foregroundColor: Colors.white,
+                          child: Icon(Icons.shopping_cart_outlined),
+                        ),
                       )
                     ],
                   ),
@@ -243,7 +247,7 @@ class _HomescreenState extends State<Homescreen> {
                     subtitle: 'Burger - Chiken - Riche - Wings',
                     rating: 4.7,
                     dileverycharge: 'Free',
-                    time: '30 min'),
+                    time: '30 min', onTap: () {  },),
                 SizedBox(
                   height: 20,
                 ),
@@ -253,7 +257,7 @@ class _HomescreenState extends State<Homescreen> {
                     subtitle: 'Burger - Chiken - Riche - Wings',
                     rating: 4.7,
                     dileverycharge: 'Free',
-                    time: '30 min'),
+                    time: '30 min', onTap: () {  },),
               ],
             ),
           ),

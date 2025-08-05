@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:food/screens/frontscreen/cart%20pages/cart_screen_details.dart';
 import 'package:food/screens/frontscreen/home%20page/food%20pages/food_details_view_screen.dart';
+import 'package:food/screens/frontscreen/home%20page/restaurant%20pages/restaurant_screen_details_view.dart';
 import 'package:food/widgets/itemscards.dart';
 import 'package:food/widgets/resturantcard.dart';
 
@@ -11,8 +13,36 @@ class FoodScreens extends StatefulWidget {
 }
 
 class _FoodScreensState extends State<FoodScreens> {
+  List<CartItem> cartItems = [];
   final items = ['Burger', 'Pizza'];
   String selectedValue = 'Burger';
+  final List<Map<String, dynamic>> restaurantData = [
+    {
+      'img': 'assets/img/resturant3.JPG',
+      'title': 'Rose Garden Restaurant',
+      'subtitle': 'Burger - Chicken - Rice - Wings',
+      'rating': 4.7,
+      'deliveryCharge': 'Free',
+      'time': '30 min',
+    },
+    {
+      'img': 'assets/img/resturant2.jpg',
+      'title': 'Pizza Palace',
+      'subtitle': 'Cheese Pizza - Pepperoni - Margherita',
+      'rating': 4.5,
+      'deliveryCharge': 'Free',
+      'time': '25 min',
+    },
+    {
+      'img': 'assets/img/resturant1.jpg',
+      'title': 'Sushi Express',
+      'subtitle': 'Sushi - Ramen - Tempura',
+      'rating': 4.8,
+      'deliveryCharge': 'Paid',
+      'time': '40 min',
+    },
+  ];
+
   final Map<String, List<Map<String, dynamic>>> foodData = {
     'Burger': [
       {
@@ -148,7 +178,12 @@ class _FoodScreensState extends State<FoodScreens> {
                         radius: 20,
                         backgroundColor: Colors.black,
                         foregroundColor: Colors.white,
-                        child: Icon(Icons.shopping_cart_outlined),
+                        child: GestureDetector(
+                            // onTap: () => Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => CartScreenDetails())),
+                            child: Icon(Icons.shopping_cart_outlined)),
                       ),
                     ],
                   ),
@@ -157,7 +192,7 @@ class _FoodScreensState extends State<FoodScreens> {
                   height: 20,
                 ),
                 Text(
-                  'Popular burgers',
+                  'Popular',
                   style: TextStyle(
                     fontSize: 20,
                     fontFamily: 'Sen',
@@ -177,8 +212,28 @@ class _FoodScreensState extends State<FoodScreens> {
                       .map((item) => Itemscards(
                             img: item['img'],
                             title: item['title'],
-                            num: item['num'].toDouble(),
+                            num: item['price'].toDouble(),
                             subtitle: item['subtitle'],
+                            addtocart: () {
+                              final itemToAdd = CartItem(
+                                img: item['img'],
+                                title: item['title'],
+                                subtitle: item['subtitle'],
+                                price: item['price'].toDouble(),
+                              );
+
+                              setState(() {
+                                cartItems.add(itemToAdd);
+                              });
+
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      CartScreenDetails(cartItems: cartItems),
+                                ),
+                              );
+                            },
                             onTap: () {
                               Navigator.push(
                                   context,
@@ -197,31 +252,6 @@ class _FoodScreensState extends State<FoodScreens> {
                             },
                           ))
                       .toList(),
-                  //hardcoded values--->can be changed to dynamic
-                  // Itemscards(
-                  //   img: 'assets/img/burger.png',
-                  //   title: 'Burger Bistro',
-                  //   num: 40,
-                  //   subtitle: 'Rose garden',
-                  // ),
-                  // Itemscards(
-                  //   img: 'assets/img/burger.png',
-                  //   title: 'Smokin Burger',
-                  //   num: 40,
-                  //   subtitle: 'Cafenio Restaurant',
-                  // ),
-                  // Itemscards(
-                  //   img: 'assets/img/burger.png',
-                  //   title: 'Buffalo Burgers',
-                  //   num: 40,
-                  //   subtitle: 'Kaji Firm Kitchen',
-                  // ),
-                  // Itemscards(
-                  //   img: 'assets/img/burger.png',
-                  //   title: 'Buffalo Burgers',
-                  //   num: 40,
-                  //   subtitle: 'Kaji Firm Kitchen',
-                  // )
                 ),
                 SizedBox(
                   height: 20,
@@ -236,13 +266,33 @@ class _FoodScreensState extends State<FoodScreens> {
                 SizedBox(
                   height: 20,
                 ),
-                Resturantcard(
-                    img: 'assets/img/resturant3.JPG',
-                    title: 'rose garden restaurant',
-                    subtitle: 'Burger - Chiken - Riche - Wings',
-                    rating: 4.7,
-                    dileverycharge: 'Free',
-                    time: '30 min'),
+                Column(
+                  children: restaurantData.map((restaurant) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Resturantcard(
+                        img: restaurant['img'],
+                        title: restaurant['title'],
+                        subtitle: restaurant['subtitle'],
+                        rating: restaurant['rating'],
+                        dileverycharge: restaurant['deliveryCharge'],
+                        time: restaurant['time'],
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      RestaurantScreenDetailsView(
+                                        img: restaurant['img'],
+                                        rating: restaurant['rating'],
+                                        title: restaurant['title'],
+                                        subtitle: restaurant['subtitle'],
+                                      )));
+                        },
+                      ),
+                    );
+                  }).toList(),
+                ),
               ],
             ),
           ),

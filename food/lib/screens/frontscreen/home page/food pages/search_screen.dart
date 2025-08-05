@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food/screens/frontscreen/cart%20pages/cart_screen_details.dart';
 import 'package:food/screens/frontscreen/home%20page/food%20pages/food_screens.dart';
-
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -43,7 +43,9 @@ class SearchScreen extends StatelessWidget {
                         radius: 20,
                         backgroundColor: Colors.black,
                         foregroundColor: Colors.white,
-                        child: Icon(Icons.shopping_cart_outlined),
+                        child: GestureDetector(
+                         // onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>CartScreenDetails())),
+                          child: Icon(Icons.shopping_cart_outlined)),
                       )
                     ],
                   ),
@@ -90,21 +92,51 @@ class SearchScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      GestureDetector(
-                        onTap:() => Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodScreens())),
-                        child: RecentCard(text: 'Burger')),
+                      RecentCard(
+                        text: 'Burger',
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FoodScreens()));
+                        },
+                      ),
                       SizedBox(
                         width: 8,
                       ),
-                      RecentCard(text: 'Sandwich'),
+                      RecentCard(
+                        text: 'Sandwich',
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FoodScreens()));
+                        },
+                      ),
                       SizedBox(
                         width: 8,
                       ),
-                      RecentCard(text: 'Pizza'),
+                      RecentCard(
+                        text: 'Pizza',
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FoodScreens()));
+                        },
+                      ),
                       SizedBox(
                         width: 8,
                       ),
-                      RecentCard(text: 'noodles')
+                      RecentCard(
+                        text: 'noodles',
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FoodScreens()));
+                        },
+                      )
                     ],
                   ),
                 ),
@@ -125,14 +157,14 @@ class SearchScreen extends StatelessWidget {
                     img: 'assets/img/resturant3.JPG',
                     title: 'pansi Restaurant',
                     rating: 4.2),
-                    SizedBox(
+                SizedBox(
                   height: 8,
                 ),
                 SuggestedCards(
                     img: 'assets/img/resturant1.jpg',
                     title: 'pansi Restaurant',
                     rating: 4.2),
-                     SizedBox(
+                SizedBox(
                   height: 8,
                 ),
                 SuggestedCards(
@@ -155,8 +187,14 @@ class SearchScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                  PopularCards(img: 'assets/img/pizza.png', title:'european Pizza', subtitle: 'Uttora Coffe House'),
-                   PopularCards(img: 'assets/img/pizza.png', title:'european Pizza', subtitle: 'Uttora Coffe House'),
+                    PopularCards(
+                        img: 'assets/img/pizza.png',
+                        title: 'european Pizza',
+                        subtitle: 'Uttora Coffe House'),
+                    PopularCards(
+                        img: 'assets/img/pizza.png',
+                        title: 'european Pizza',
+                        subtitle: 'Uttora Coffe House'),
                   ],
                 )
               ],
@@ -170,23 +208,27 @@ class SearchScreen extends StatelessWidget {
 
 class RecentCard extends StatelessWidget {
   final String text;
-  const RecentCard({super.key, required this.text});
+  final VoidCallback onTap;
+  const RecentCard({super.key, required this.text, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      width: 100,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: Colors.grey.shade200, width: 2),
-        color: Colors.white,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 50,
+        width: 100,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(color: Colors.grey.shade200, width: 2),
+          color: Colors.white,
+        ),
+        child: Center(
+            child: Text(
+          text,
+          style: TextStyle(fontSize: 14, fontFamily: 'Sen'),
+        )),
       ),
-      child: Center(
-          child: Text(
-        text,
-        style: TextStyle(fontSize: 14, fontFamily: 'Sen'),
-      )),
     );
   }
 }
@@ -251,63 +293,68 @@ class SuggestedCards extends StatelessWidget {
     );
   }
 }
+
 class PopularCards extends StatelessWidget {
   final String img;
   final String title;
   final String subtitle;
-  const PopularCards({super.key, required this.img, required this.title, required this.subtitle});
+  const PopularCards(
+      {super.key,
+      required this.img,
+      required this.title,
+      required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
-    return   Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Container(
-                        height: 170,
-                        width: 150,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white, // Optional background color
-                        ),
-                        child: Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10),
-                              ),
-                              child: Image.asset(
-                                img,
-                                height: 100,
-                                width: 150,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              title,
-                              style: TextStyle(
-                                fontFamily: 'Sen',
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              subtitle,
-                              style: TextStyle(
-                                fontFamily: 'Sen',
-                                color: Colors.grey,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Container(
+        height: 170,
+        width: 150,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white, // Optional background color
+        ),
+        child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              child: Image.asset(
+                img,
+                height: 100,
+                width: 150,
+                fit: BoxFit.contain,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              title,
+              style: TextStyle(
+                fontFamily: 'Sen',
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              subtitle,
+              style: TextStyle(
+                fontFamily: 'Sen',
+                color: Colors.grey,
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

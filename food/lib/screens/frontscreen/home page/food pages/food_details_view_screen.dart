@@ -33,6 +33,7 @@ class _FoodDetailsViewScreenState extends State<FoodDetailsViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
