@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food/screens/frontscreen/home%20page/homescreen.dart';
 import 'package:food/widgets/onboardingcard.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../home page/homescreen.dart';
 
 class Onboardingscreen extends StatefulWidget {
   const Onboardingscreen({super.key});
@@ -95,7 +96,7 @@ class _OnboardingscreenState extends State<Onboardingscreen> {
                      if (controller.page == 2) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const Homescreen()),
+                    MaterialPageRoute(builder: (context) =>  Homescreen()),
                   );
                 } else {
                   controller.nextPage(

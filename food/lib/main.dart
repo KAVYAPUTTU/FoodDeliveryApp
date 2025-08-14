@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:food/screens/frontscreen/splashscreen1.dart';
+import 'package:provider/provider.dart';
+import 'screens/frontscreen/home page/restaurant pages/restaurant.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => Restaurant(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

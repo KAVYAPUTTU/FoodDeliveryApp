@@ -36,9 +36,10 @@ class Itemscards extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'sen'),
+                  maxLines: 1,
                 ),
                 Text(
                   subtitle,style: TextStyle(

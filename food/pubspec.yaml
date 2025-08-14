@@ -32,6 +32,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
   smooth_page_indicator:
+  provider: ^6.1.5
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +44,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -62,21 +64,16 @@ flutter:
     - assets/img/services.png
     - assets/img/Logo.png
     - assets/img/fire.png
-    - assets/img/hot_dog.png
     - assets/img/Logo.png
-    - assets/img/pizza.png
     - assets/img/services.png
     - assets/img/resturant1.jpg
     - assets/img/resturant2.jpg
     - assets/img/resturant3.JPG
-    - assets/img/burger.png
     - assets/img/Delivery.png
     - assets/img/Clock.png
-    - assets/img/pizza4.png
-    - assets/img/pizza3.png
-    - assets/img/pizza2.png
-    - assets/img/burger3.png
-    - assets/img/burger2.png
+    - assets/img/burger/
+    - assets/img/pizza/
+    - assets/img/hotdog/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
