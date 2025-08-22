@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:food/screens/cart%20pages/cart_screen_details.dart';
+import 'package:food/screens/home%20page/food%20pages/food_screens.dart';
 import 'package:food/screens/home%20page/restaurant%20pages/restaurant.dart';
 import 'package:food/widgets/food_data.dart';
-import 'package:food/widgets/resturantcard.dart';
-
+import 'package:provider/provider.dart';
+import 'dart:math';
+import '../../widgets/itemscards.dart';
+import 'food pages/food_details_view_screen.dart';
 import 'food pages/search_screen.dart';
 
 class Homescreen extends StatelessWidget {
-  final Restaurant restaurant = Restaurant();
-  Homescreen({super.key});
+  
+  const Homescreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    List<FoodData> menuItems = restaurant.menu;
+    final random = Random();
+      //provider
+    final restaurant = Provider.of<Restaurant>(context);
+    //shuffle menu
+    final List<FoodData> jumbledMenu = List.from(restaurant.menu)
+      ..shuffle(random);
+    //selecting on three
+    final List<FoodData> visibleItems = jumbledMenu.take(6).toList();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -148,18 +158,6 @@ class Homescreen extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
-                    Row(
-                      children: [
-                        Text(
-                          'See All',
-                          style: TextStyle(fontFamily: 'sen'),
-                        ),
-                        Icon(
-                          Icons.chevron_right,
-                          color: Colors.grey,
-                        )
-                      ],
-                    )
                   ],
                 ),
                 SizedBox(
@@ -173,23 +171,47 @@ class Homescreen extends StatelessWidget {
                         title: 'All',
                         img: 'assets/img/fire.png',
                         onTap: () {
-                          
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FoodScreens()));
                         },
                       ),
                       CategoriesCard(
                         title: 'Hot Dog',
                         img: 'assets/img/hot_dog.png',
-                        onTap: () {},
+                        onTap: () {
+                          Provider.of<Restaurant>(context, listen: false)
+                              .changeCategory('HotDog');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FoodScreens()));
+                        },
                       ),
                       CategoriesCard(
                         title: 'Burger',
                         img: 'assets/img/burger.png',
-                        onTap: () {},
+                        onTap: () {
+                          Provider.of<Restaurant>(context, listen: false)
+                              .changeCategory('Burger');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FoodScreens()));
+                        },
                       ),
                       CategoriesCard(
                         title: 'Pizza',
                         img: 'assets/img/pizza.png',
-                        onTap: () {},
+                        onTap: () {
+                          Provider.of<Restaurant>(context, listen: false)
+                              .changeCategory('Pizza');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FoodScreens()));
+                        },
                       )
                     ],
                   ),
@@ -200,16 +222,19 @@ class Homescreen extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Open Restaurants',
+                      'Available Items',
                       style: TextStyle(
                         fontFamily: 'sen',
                         fontSize: 20,
                       ),
                     ),
                     Spacer(),
-                    Text(
-                      'See All',
-                      style: TextStyle(fontFamily: 'sen'),
+                    GestureDetector(
+                      onTap:() => Navigator.push(context,MaterialPageRoute(builder: (context)=>FoodScreens())),
+                      child: Text(
+                        'See All',
+                        style: TextStyle(fontFamily: 'sen'),
+                      ),
                     ),
                     Icon(
                       Icons.chevron_right,
@@ -220,26 +245,35 @@ class Homescreen extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                Resturantcard(
-                  img: 'assets/img/resturant3.JPG',
-                  title: 'rose garden restaurant',
-                  subtitle: 'Burger - Chiken - Riche - Wings',
-                  rating: 4.7,
-                  dileverycharge: 'Free',
-                  time: '30 min',
-                  onTap: () {},
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Resturantcard(
-                  img: 'assets/img/resturant2.jpg',
-                  title: 'rose garden restaurant',
-                  subtitle: 'Burger - Chiken - Riche - Wings',
-                  rating: 4.7,
-                  dileverycharge: 'Free',
-                  time: '30 min',
-                  onTap: () {},
+                GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  childAspectRatio: 0.9,
+                  children: visibleItems.map((item) {
+                    return Itemscards(
+                        img: item.imagepath,
+                        title: item.name,
+                        num: item.price.toDouble(),
+                        subtitle: item.restaurantname,
+                        onTap: () {
+                          Navigator.push(
+                              (context),
+                              MaterialPageRoute(
+                                  builder: (context) => FoodDetailsViewScreen(
+                                        img: item.imagepath,
+                                        title: item.name,
+                                        subtitle: item.restaurantname,
+                                        num: item.price.toDouble(),
+                                        description: item.description,
+                                        ingredients: item.availableaddons
+                                            .map((e) => e.name)
+                                            .join(','),
+                                      )));
+                        });
+                  }).toList(),
                 ),
               ],
             ),
@@ -352,4 +386,3 @@ class BigCategoryCard extends StatelessWidget {
     );
   }
 }
-

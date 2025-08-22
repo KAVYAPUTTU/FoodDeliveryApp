@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-
+import 'package:food/widgets/food_data.dart';
+import 'package:provider/provider.dart';
+import 'dart:math';
+import '../../../widgets/itemscards.dart';
 import '../../cart pages/cart_item.dart';
-import '../../cart pages/cart_screen_details.dart';
+import '../restaurant pages/restaurant.dart';
+import 'food_details_view_screen.dart';
 import 'food_screens.dart';
 
 class SearchScreen extends StatefulWidget {
-  
   const SearchScreen({super.key});
 
   @override
@@ -14,8 +17,17 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   List<CartItem> cartItems = [];
+  final random = Random();
+
   @override
   Widget build(BuildContext context) {
+    //provider
+    final restaurant = Provider.of<Restaurant>(context);
+    //shuffle menu
+    final List<FoodData> jumbledMenu = List.from(restaurant.menu)
+      ..shuffle(random);
+    //selecting on three
+    final List<FoodData> visibleItems = jumbledMenu.take(3).toList();
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -52,9 +64,15 @@ class _SearchScreenState extends State<SearchScreen> {
                         radius: 20,
                         backgroundColor: Colors.black,
                         foregroundColor: Colors.white,
-                        child: GestureDetector(
-                         onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=>CartScreenDetails(cartItems:cartItems,))),
-                          child: Icon(Icons.shopping_cart_outlined)),
+                        child: IconButton(
+                            onPressed: () {
+                              showSearch(
+                                  context: context,
+                                  delegate: MySearchDelegate(
+                                    Provider.of<Restaurant>(context,listen: false).menu
+                                  ));
+                            },
+                            icon: Icon(Icons.search)),
                       )
                     ],
                   ),
@@ -62,33 +80,8 @@ class _SearchScreenState extends State<SearchScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                Container(
-                    height: 60,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.grey.shade100),
-                    child: Center(
-                      child: TextField(
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Search dishes, restaurants',
-                            hintStyle: TextStyle(
-                                fontFamily: 'sen',
-                                fontSize: 14,
-                                color: Colors.grey),
-                            prefixIcon: Icon(
-                              Icons.search,
-                              color: Colors.grey,
-                            ),
-                            suffixIcon: Icon(Icons.cancel, color: Colors.grey)),
-                      ),
-                    )),
-                SizedBox(
-                  height: 10,
-                ),
                 Text(
-                  'Recent Keywords',
+                  'Foods',
                   style: TextStyle(
                     fontSize: 20,
                     fontFamily: 'Sen',
@@ -104,6 +97,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       RecentCard(
                         text: 'Burger',
                         onTap: () {
+                          Provider.of<Restaurant>(context,listen: false).changeCategory('Burger');
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -114,8 +108,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         width: 8,
                       ),
                       RecentCard(
-                        text: 'Sandwich',
+                        text: 'Hotdog',
                         onTap: () {
+                          Provider.of<Restaurant>(context,listen: false).changeCategory('HotDog');
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -128,6 +123,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       RecentCard(
                         text: 'Pizza',
                         onTap: () {
+                          Provider.of<Restaurant>(context,listen: false).changeCategory('Pizza');
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -153,7 +149,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   height: 20,
                 ),
                 Text(
-                  'Suggested Restaurants',
+                  'Ratings',
                   style: TextStyle(
                     fontSize: 20,
                     fontFamily: 'Sen',
@@ -162,24 +158,41 @@ class _SearchScreenState extends State<SearchScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                SuggestedCards(
-                    img: 'assets/img/resturant3.JPG',
-                    title: 'pansi Restaurant',
-                    rating: 4.2),
+                ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: visibleItems.length,
+                    itemBuilder: (context, index) {
+                      final food = visibleItems[index];
+                      return SuggestedCards(
+                          img: food.imagepath, title: food.name, rating: 4.5);
+                    }),
                 SizedBox(
-                  height: 8,
+                  height: 10,
                 ),
-                SuggestedCards(
-                    img: 'assets/img/resturant1.jpg',
-                    title: 'pansi Restaurant',
-                    rating: 4.2),
-                SizedBox(
-                  height: 8,
+                GestureDetector(
+                  onTap: () {
+                    setState(() {});
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Show More',
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontFamily: 'Sen',
+                            color: Theme.of(context).colorScheme.primary),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Icon(Icons.refresh,
+                          size: 16,
+                          color: Theme.of(context).colorScheme.primary)
+                    ],
+                  ),
                 ),
-                SuggestedCards(
-                    img: 'assets/img/resturant2.jpg',
-                    title: 'pansi Restaurant',
-                    rating: 4.2),
                 SizedBox(
                   height: 20,
                 ),
@@ -193,19 +206,36 @@ class _SearchScreenState extends State<SearchScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    PopularCards(
-                        img: 'assets/img/pizza.png',
-                        title: 'european Pizza',
-                        subtitle: 'Uttora Coffe House'),
-                    PopularCards(
-                        img: 'assets/img/pizza.png',
-                        title: 'european Pizza',
-                        subtitle: 'Uttora Coffe House'),
-                  ],
-                )
+                GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  childAspectRatio: 0.9,
+                  children: visibleItems.map((item) {
+                    return Itemscards(
+                        img: item.imagepath,
+                        title: item.name,
+                        num: item.price.toDouble(),
+                        subtitle: item.restaurantname,
+                        onTap: () {
+                          Navigator.push(
+                              (context),
+                              MaterialPageRoute(
+                                  builder: (context) => FoodDetailsViewScreen(
+                                        img: item.imagepath,
+                                        title: item.name,
+                                        subtitle: item.restaurantname,
+                                        num: item.price.toDouble(),
+                                        description: item.description,
+                                        ingredients: item.availableaddons
+                                            .map((e) => e.name)
+                                            .join(','),
+                                      )));
+                        });
+                  }).toList(),
+                ),
               ],
             ),
           ),
@@ -265,7 +295,7 @@ class SuggestedCards extends StatelessWidget {
             height: 50,
             width: 60,
             decoration: BoxDecoration(
-                color: Colors.grey, borderRadius: BorderRadius.circular(10)),
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.asset(
@@ -365,5 +395,92 @@ class PopularCards extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class MySearchDelegate extends SearchDelegate {
+  final List<FoodData> foods;
+  // it is hardcoded values i used my provider Restaurant here
+  // final List<String> foods = [
+  //   'Burger',
+  //   'Pizza',
+  //   'Hotdog',
+  // ];
+  MySearchDelegate(this.foods);
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+          onPressed: () {
+            query = '';
+          },
+          icon: Icon(Icons.clear))
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(onPressed: (){
+      close(context, null);
+    }, icon:Icon(Icons.arrow_back));
+  }
+  @override
+  Widget buildResults(BuildContext context) {
+    List<FoodData> matchquery =[];
+    for(var food in foods){
+      if(food.name.toLowerCase().contains(query.toLowerCase())){
+        matchquery.add(food);
+      }
+    }
+    return Container(
+      color: Colors.white,
+      child: ListView.builder(
+        itemCount: matchquery.length,
+        itemBuilder: (context,index){
+        var result = matchquery[index];
+        return ListTile(
+          leading: Image.asset(result.imagepath,width: 50,height: 50,fit: BoxFit.contain,),
+          title: Text(result.name),
+          subtitle: Text(result.restaurantname),
+          onTap: () {
+            Navigator.push(context,MaterialPageRoute(builder: (context)=>FoodDetailsViewScreen(img: result.imagepath, title:result.name, subtitle:result.restaurantname, num:result.price, description:result.description, ingredients:result.availableaddons.toString())));
+          },
+        );
+      }),
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    if(query.isEmpty){
+      return Center(
+        child: Text('Start Typing to Search'),
+      );
+    }
+    List<FoodData> matchQuery = [];
+    for (var food in foods) {
+      if (food.name.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(food);
+      }
+    }
+    return Container(
+      color: Colors.white,
+      child: ListView.builder(
+        itemCount: matchQuery.length,
+        itemBuilder: (context,index){
+        var suggestion = matchQuery[index];
+         return ListTile(
+          leading: Image.asset(suggestion.imagepath,width: 40,height: 40,fit: BoxFit.cover,),
+          title: Text(suggestion.name),
+          subtitle: Text(suggestion.restaurantname),
+          onTap: () {
+            query= suggestion.name;
+            showResults(context);
+          },
+          );
+      }
+      ),
+    );
+
   }
 }

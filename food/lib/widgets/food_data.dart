@@ -1,3 +1,18 @@
+class RestaurantData{
+  final String name;
+  final String location;
+  final double rating;
+  final String image;
+  final List<FoodData> menu;
+
+  RestaurantData({
+    required this.name,
+    required this.location,
+    required this.rating,
+    required this.image,
+    required this.menu, required String cuisineType,
+  });
+}
 class FoodData {
   final String name;
   final String description;

@@ -188,6 +188,73 @@ class Restaurant extends ChangeNotifier{
       restaurantname: 'Spice & Grill', category:FoodCategory.Hotdog,
     ),
   ];
+
+final List<RestaurantData> restaurants = [
+  RestaurantData(
+    name: 'Burger Bistro House',
+    location: 'Downtown, City Center',
+    rating: 4.6,
+    image: 'assets/img/restaurants/resturant1.jpg',
+    cuisineType: 'Burgers & Fast Food', menu: [],
+  ),
+  RestaurantData(
+    name: 'Grill Masters',
+    location: 'Main Street 45',
+    rating: 4.4,
+    image: 'assets/img/restaurants/resturant2.jpg',
+    cuisineType: 'Burgers & BBQ', menu: [],
+  ),
+  RestaurantData(
+    name: 'Spice & Grill',
+    location: 'Spice Avenue 12',
+    rating: 4.5,
+    image: 'assets/img/restaurants/resturant3.jpg',
+    cuisineType: 'Spicy Burgers & Hotdogs', menu: [],
+  ),
+  RestaurantData(
+    name: 'BBQ Haven',
+    location: 'Riverside Road',
+    rating: 4.7,
+    image:'assets/img/restaurants/resturant4.jpg' ,
+    cuisineType: 'BBQ & Grilled Food', menu: [],
+  ),
+  RestaurantData(
+    name: 'Italiano Pizzeria',
+    location: 'Pasta Street 8',
+    rating: 4.8,
+    image: 'assets/img/restaurants/resturant5.jpg',
+    cuisineType: 'Italian Pizza', menu: [],
+  ),
+  RestaurantData(
+    name: 'Roma Kitchen',
+    location: 'Old Town Plaza',
+    rating: 4.6,
+    image:'assets/img/restaurants/resturant6.jpg',
+    cuisineType: 'Italian Cuisine', menu: [],
+  ),
+  RestaurantData(
+    name: 'Veggie Delight',
+    location: 'Green Lane 22',
+    rating: 4.5,
+    image: 'assets/img/restaurants/resturant7.jpg',
+    cuisineType: 'Vegetarian & Vegan', menu: [],
+  ),
+  // RestaurantData(
+  //   name: 'Cheese Lovers Hub',
+  //   location: 'Cheddar Street 14',
+  //   rating: 4.9,
+  //   image: 'assets/img/restaurants/cheese_lovers.png',
+  //   cuisineType: 'Cheese-based Dishes', menu: [],
+  // ),
+  // RestaurantData(
+  //   name: 'Hotdog Express',
+  //   location: 'Station Road',
+  //   rating: 4.3,
+  //   image: 'assets/img/restaurants/hotdog_express.png',
+  //   cuisineType: 'Hotdogs & Fast Food', menu: [],
+  // ),
+];
+
 //change the category
 void changeCategory(String value) {
     selectedValue = value;
